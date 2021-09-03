@@ -6,12 +6,203 @@ import {
     Text,
     TouchableOpacity,
     Image,
-    ScrollView
+    ScrollView,
+    FlatList,
+    Alert
 } from "react-native";
 
-import { icons, COLORS, SIZES, FONTS } from '../constants'
+import { icons, COLORS, SIZES, FONTS, items } from '../constants'
+
+
+
+
 
 const ItemList = ({ route, navigation }) => {
+    
+    const products = [
+        {
+            id: 1,
+            image: items.almond,
+            name: "almond",
+            quantity: 0,
+        },
+        {
+            id: 2,
+            image: items.almonds,
+            name: "almonds",
+            quantity: 0,
+        },
+        {
+            id: 3,
+            image: items.anise,
+            name: "anise",
+            quantity: 0,
+        },
+        {
+            id: 4,
+            image: items.bay_leaf,
+            name: "bay leaf",
+            quantity: 0,
+        },
+        {
+            id: 5,
+            image: items.bread,
+            name: "bread",
+            quantity: 0,
+        },
+        {
+            id: 6,
+            image: items.butter,
+            name: "butter",
+            quantity: 0,
+        },
+        {
+            id: 7,
+            image: items.cake,
+            name: "cake",
+            quantity: 0,
+        },
+        {
+            id: 8,
+            image: items.cereal,
+            name: "cereal",
+            quantity: 0,
+        },
+        {
+            id: 9,
+            image: items.cheese,
+            name: "cheese",
+            quantity: 0,
+        },
+        {
+            id: 10,
+            image: items.chili_powder,
+            name: "chili powder",
+            quantity: 0,
+        },
+        {
+            id: 11,
+            image: items.cinnamon,
+            name: "cinnamon",
+            quantity: 0,
+        },
+        {
+            id: 12,
+            image: items.condense_milk,
+            name: "condense milk",
+            quantity: 0,
+        },
+        {
+            id: 13,
+            image: items.cookie,
+            name: "cookie",
+            quantity: 0,
+        },
+        {
+            id: 14,
+            image: items.cooking_wine,
+            name: "cooking wine",
+            quantity: 0,
+        },
+        {
+            id: 15,
+            image: items.egg,
+            name: "egg",
+            quantity: 0,
+        },
+        {
+            id: 16,
+            image: items.fennel,
+            name: "fennel",
+            quantity: 0,
+        },
+        {
+            id: 17,
+            image: items.flour,
+            name: "bay leaf",
+            quantity: 0,
+        },
+        {
+            id: 18,
+            image: items.instant_noodle,
+            name: "instant noodle",
+            quantity: 0,
+        },
+        {
+            id: 19,
+            image: items.ketchup,
+            name: "ketchup",
+            quantity: 0,
+        },
+        {
+            id: 20,
+            image: items.milk,
+            name: "milk",
+            quantity: 0,
+        },
+        {
+            id: 21,
+            image: items.oil,
+            name: "oil",
+            quantity: 0,
+        },
+        {
+            id: 22,
+            image: items.pasta,
+            name: "pasta",
+            quantity: 0,
+        },
+        {
+            id: 23,
+            image: items.pepper,
+            name: "pepper",
+            quantity: 0,
+        },
+        {
+            id: 24,
+            image: items.rice,
+            name: "rice",
+            quantity: 0,
+        },
+        {
+            id: 25,
+            image: items.salt,
+            name: "salt",
+            quantity: 0,
+        },
+        {
+            id: 26,
+            image: items.sesame,
+            name: "sesame",
+            quantity: 0,
+        },
+        {
+            id: 27,
+            image: items.soft_drink,
+            name: "soft drink",
+            quantity: 0,
+        },
+        {
+            id: 28,
+            image: items.soy_sauce,
+            name: "soy sauce",
+            quantity: 0,
+        },
+        {
+            id: 29,
+            image: items.sugar,
+            name: "sugar",
+            quantity: 0,
+        },
+        {
+            id: 4,
+            image: items.vinegar,
+            name: "vinegar",
+            quantity: 0,
+        },
+    ]
+
+    const [product, setProduct] = React.useState(products)
 
     function renderHeader() {
         return (
@@ -63,12 +254,29 @@ const ItemList = ({ route, navigation }) => {
     }
 
     function renderContent() {
-        return (
-            <View>
-                <Text>hi</Text>
-            </View>
-        )
+        const renderItem = ({item}) => {
+            return(
+                <TouchableOpacity  style = {styles.list} onPress = {() => {Alert.alert("name: " + item.name + "\nquantity: " + item.quantity);}}>
+                <View style = {styles.itemList}>
+                    <Image source = {item.image} style = {styles.itemImage}/>
+                    <View style = {styles.textBox}>
+                    <Text style = {styles.itemDetails}>{item.name} </Text>
+                    <Text style = {styles.itemDetails}>{item.quantity}</Text>
+                    </View>
+                </View>
+            </TouchableOpacity>
+            );
+        }
+        return(
+            <FlatList
+            numColumns={2} 
+            data = {product}
+            renderItem = {renderItem}
+            keyExtractor = {item => `${item.id}`}>
+            </FlatList>
+        );
     }
+
     return (
         <SafeAreaView style={styles.container}>
             {renderHeader()}
@@ -86,6 +294,25 @@ const styles = StyleSheet.create({
         paddingLeft: SIZES.padding * 2,
         backgroundColor: COLORS.secondary,
         width: 400
+    },
+    list: {
+        borderWidth: 1,
+        width: '50%',
+        height: 300,
+    },
+    itemBox: {
+        flexDirection: "row",
+    },
+    textBox: {
+        alignItems: "center",
+    },
+    itemImage: {
+        width: 200,
+        height: 200,
+        borderRadius: 200/2,
+    },
+    itemDetails: {
+        fontSize: 20,
     }
 })
 
