@@ -13,19 +13,17 @@ import { icons, COLORS, SIZES, FONTS } from '../constants'
 
 export default function FlatButton({ text, onPress }) {
     return (
-        <TouchableOpacity onPress={onPress} style={{ zIndex: 999 }}>
-            <View style={styles.button}>
-                <Text style={styles.buttonText}>
-                    {text}
-                </Text>
-            </View>
+        <TouchableOpacity onPress={onPress} style={styles.button}>
+            <Text style={styles.buttonText}>
+                {text}
+            </Text>
         </TouchableOpacity>
     )
 }
 
 const styles = StyleSheet.create({
     button: {
-        width: 100,
+        width: 105,
         height: 32,
         alignItems: 'center',
         justifyContent: 'center',

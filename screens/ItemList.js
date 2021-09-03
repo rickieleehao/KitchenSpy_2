@@ -6,19 +6,14 @@ import {
     Text,
     TouchableOpacity,
     Image,
-    ScrollView,
     FlatList,
     Alert
 } from "react-native";
 
 import { icons, COLORS, SIZES, FONTS, items } from '../constants'
 
-
-
-
-
 const ItemList = ({ route, navigation }) => {
-    
+
     const products = [
         {
             id: 1,
@@ -254,25 +249,25 @@ const ItemList = ({ route, navigation }) => {
     }
 
     function renderContent() {
-        const renderItem = ({item}) => {
-            return(
-                <TouchableOpacity  style = {styles.list} onPress = {() => {Alert.alert("name: " + item.name + "\nquantity: " + item.quantity);}}>
-                <View style = {styles.itemList}>
-                    <Image source = {item.image} style = {styles.itemImage}/>
-                    <View style = {styles.textBox}>
-                    <Text style = {styles.itemDetails}>{item.name} </Text>
-                    <Text style = {styles.itemDetails}>{item.quantity}</Text>
+        const renderItem = ({ item }) => {
+            return (
+                <TouchableOpacity style={styles.list} onPress={() => { Alert.alert("name: " + item.name + "\nquantity: " + item.quantity); }}>
+                    <View style={styles.itemList}>
+                        <Image source={item.image} style={styles.itemImage} />
+                        <View style={styles.textBox}>
+                            <Text style={styles.itemDetails}>{item.name} </Text>
+                            <Text style={styles.itemDetails}>{item.quantity}</Text>
+                        </View>
                     </View>
-                </View>
-            </TouchableOpacity>
+                </TouchableOpacity>
             );
         }
-        return(
+        return (
             <FlatList
-            numColumns={2} 
-            data = {product}
-            renderItem = {renderItem}
-            keyExtractor = {item => `${item.id}`}>
+                numColumns={2}
+                data={product}
+                renderItem={renderItem}
+                keyExtractor={item => `${item.id}`}>
             </FlatList>
         );
     }
@@ -309,7 +304,7 @@ const styles = StyleSheet.create({
     itemImage: {
         width: 200,
         height: 200,
-        borderRadius: 200/2,
+        borderRadius: 200 / 2,
     },
     itemDetails: {
         fontSize: 20,

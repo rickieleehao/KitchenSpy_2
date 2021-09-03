@@ -63,7 +63,6 @@ const Recipe = ({ navigation }) => {
                             FONTS.h3
                         }
                     >
-                        {obj.recipe.label}
                     </Text>
                     <TouchableOpacity
                         style={{
