@@ -1,3 +1,4 @@
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import React from "react";
 import {
     StyleSheet,
@@ -12,7 +13,7 @@ import {
 
 import { icons, COLORS, SIZES, FONTS, items } from '../constants'
 
-const ItemList = ({ route, navigation }) => {
+const ItemList = ({ navigation }) => {
 
     const products = [
         {
@@ -190,7 +191,7 @@ const ItemList = ({ route, navigation }) => {
             quantity: 0,
         },
         {
-            id: 4,
+            id: 30,
             image: items.vinegar,
             name: "vinegar",
             quantity: 0,
@@ -251,20 +252,20 @@ const ItemList = ({ route, navigation }) => {
     function renderContent() {
         const renderItem = ({ item }) => {
             return (
-                <TouchableOpacity style={styles.list} onPress={() => { Alert.alert("name: " + item.name + "\nquantity: " + item.quantity); }}>
-                    <View style={styles.itemList}>
-                        <Image source={item.image} style={styles.itemImage} />
-                        <View style={styles.textBox}>
-                            <Text style={styles.itemDetails}>{item.name} </Text>
-                            <Text style={styles.itemDetails}>{item.quantity}</Text>
-                        </View>
+                <TouchableOpacity style={styles.list} onPress={() => {
+                    try { AsyncStorage.setItem("ProductData", item.name) } catch (e) {
+                        console.log(e);
+                    }
+                }}>
+                    <Image source={item.image} style={styles.itemImage} />
+                    <View style={styles.textBox}>
+                        <Text style={styles.itemDetails}>{item.name} </Text>
                     </View>
                 </TouchableOpacity>
             );
         }
         return (
             <FlatList
-                numColumns={2}
                 data={product}
                 renderItem={renderItem}
                 keyExtractor={item => `${item.id}`}>
@@ -291,9 +292,15 @@ const styles = StyleSheet.create({
         width: 400
     },
     list: {
-        borderWidth: 1,
-        width: '50%',
-        height: 300,
+        borderWidth: 2,
+        borderRadius: 90,
+        width: '60%',
+        height: 250,
+        left: 90,
+        alignItems: "center",
+        marginVertical: SIZES.padding,
+        backgroundColor: COLORS.secondary,
+
     },
     itemBox: {
         flexDirection: "row",
@@ -304,7 +311,7 @@ const styles = StyleSheet.create({
     itemImage: {
         width: 200,
         height: 200,
-        borderRadius: 200 / 2,
+        borderRadius: 70,
     },
     itemDetails: {
         fontSize: 20,

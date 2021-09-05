@@ -25,7 +25,7 @@ const Recipe = ({ navigation }) => {
                     resizeMode="contain"
                     style={{
                         width: 120,
-                        paddingLeft: SIZES.padding * 1,
+                        paddingLeft: SIZES.padding * 2,
                         justifyContent: 'center',
                         textAlignVertical: "center",
                         fontSize: SIZES.h2,

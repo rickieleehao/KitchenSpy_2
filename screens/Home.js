@@ -10,49 +10,20 @@ import {
 } from "react-native";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { icons, images, SIZES, COLORS, FONTS } from '../constants';
-import FlatButton from '../components/button';
 
 const Home = ({ navigation }) => {
-    const containers = [
-        {
-            id: 1,
-            name: "Fridge",
-            img: icons.back,
-            containData: [
+    const [product, setProducts] = React.useState()
 
-            ]
-        },
-        {
-            id: 2,
-            name: "Freezer",
-            containData: [
-
-            ]
-        },
-        {
-            id: 3,
-            name: "Kitchen",
-            containData: [
-
-            ]
+    function renderData() {
+        if (!AsyncStorage.getItem("ProductData")) {
+            AsyncStorage.setItem("ProductData", "");
         }
-    ]
 
-    const [container, setContainer] = React.useState(containers)
-
-    const getValue = () => {
-        AsyncStorage.getAllKeys()
+        AsyncStorage.getItem("ProductData")
             .then((value) => {
-                setItems(value);
+                setProducts(value);
             })
-    }
 
-
-    const [items, setItems] = React.useState(null)
-
-    const [selectedContainer, setSelectedContainer] = React.useState(null)
-
-    function onSelectCategory(category) {
     }
 
     function renderHeader() {
@@ -73,34 +44,11 @@ const Home = ({ navigation }) => {
     }
 
     function renderContainer() {
-        const renderItem = ({ item }) => {
-            return (
-                // <FlatButton
-                //     text={item.name}
-                //     onPress={navigation.navigate("ItemList")}
-                // ></FlatButton>
-
-                <TouchableOpacity style={{ width: 100, height: 30, top: -20, backgroundColor: "white" }}>
-                    <Text style={{ width: "100%", height: "100%" }}>
-                        i
-                    </Text>
-                </TouchableOpacity>
-            )
-        }
-
         return (
-            <View style={{ height: 45, backgroundColor: COLORS.primary, paddingLeft: SIZES.padding, paddingBottom: SIZES.padding }}>
-                <FlatList
-                    data={container}
-                    horizontal
-                    showsHorizontalScrollIndicator={false}
-                    keyExtractor={item => `${item.id}`}
-                    renderItem={renderItem}
-                    contentContainerStyle={{
-                        paddingVertical: SIZES.padding * 2
-                    }}
-                >
-                </FlatList>
+            <View style={{ width: 415, height: 40, backgroundColor: COLORS.secondary, alignItems: "center", paddingVertical: SIZES.padding * 0.5 }}>
+                <Text style={FONTS.h2}>
+                    Contained Items
+                </Text>
             </View>
         )
     }
@@ -110,7 +58,7 @@ const Home = ({ navigation }) => {
             return (
                 <TouchableOpacity style={styles.list}>
                     <Text style={{ textAlign: "center", textAlignVertical: "center" }}>
-                        {item.name}
+                        {item}
                     </Text>
                 </TouchableOpacity>
             )
@@ -118,7 +66,7 @@ const Home = ({ navigation }) => {
 
         return (
             <FlatList
-                data={container}
+                data={product}
                 renderItem={renderItem}
                 keyExtractor={item => `${item.id}`}
                 contentContainerStyle={{ paddingVertical: SIZES.padding * 2 }}
@@ -144,7 +92,7 @@ const Home = ({ navigation }) => {
         <SafeAreaView style={styles.container}>
             {renderHeader()}
             {renderContainer()}
-            {/* {Tabs()} */}
+            {renderData()}
             {renderItem()}
             {renderPlusButton()}
         </SafeAreaView>
@@ -187,45 +135,3 @@ const styles = StyleSheet.create({
 })
 
 export default Home;
-
-// <TouchableOpacity
-                //     style={{
-                //         paddingHorizontal: SIZES.padding * 1.5,
-                //         width: 100,
-                //         height: 100,
-                //         backgroundColor: 'red'
-                //     }}
-                //     onPress={() => {
-                //         navigation.navigate("ItemList")
-                //     }}
-                // >
-                //     <View
-                //         style={{
-                //             width: 100,
-                //             height: 30,
-                //             top: -15,
-                //             backgroundColor: COLORS.lightGray3,
-                //             alignItems: 'center',
-                //             justifyContent: 'center',
-                //             borderRadius: SIZES.radius,
-                //             borderColor: COLORS.white,
-                //             borderWidth: 2,
-                //         }}
-                //     >
-                //         <Text
-                //             style={{
-                //                 width: "100%",
-                //                 height: "100%",
-                //                 backgroundColor: COLORS.primary,
-                //                 alignItems: 'center',
-                //                 justifyContent: 'center',
-                //                 textAlignVertical: 'center',
-                //                 textAlign: 'center',
-                //                 borderRadius: SIZES.radius,
-                //                 color: COLORS.white,
-                //                 fontSize: SIZES.body3
-                //             }}>
-                //             {item.name}
-                //         </Text>
-                //     </View>
-                // </TouchableOpacity>
