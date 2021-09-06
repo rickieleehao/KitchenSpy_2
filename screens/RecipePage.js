@@ -10,7 +10,8 @@ import {
 } from "react-native";
 
 import { icons, COLORS, SIZES, FONTS } from '../constants'
-import CustomRecipe from "../components/customRecipe";
+import RecipeContentCustom from '../components/customRecipePage';
+
 const RecipePage = ({ route, navigation }) => {
 
     const [recipe, setRecipe] = React.useState(null);
@@ -68,69 +69,14 @@ const RecipePage = ({ route, navigation }) => {
 
     function renderContent() {
         return (
-            <CustomRecipe
-                recipeImg={{ uri: recipe?.recipe.image }}
+            <RecipeContentCustom
+                recipeImg={recipe?.recipe.image}
                 cuisineType={recipe?.recipe.cuisineType}
                 mealType={recipe?.recipe.mealType}
                 calories={recipe?.recipe.calories}
-                ingredients={ }
-            ></CustomRecipe>
-            // <View style={{
-            //     justifyContent: "center",
-            //     alignItems: "center",
-            //     paddingTop: SIZES.padding * 2,
-            // }}>
-            //     <Image
-            //         source={{ uri: recipe?.recipe.image }}
-            //         style={{
-            //             width: 250,
-            //             height: 250,
-            //             borderRadius: 40,
-            //             alignContent: "center",
-            //             marginBottom: SIZES.padding * 2,
-            //         }}
-            //     ></Image>
-
-            //     {/* Recipe Information */}
-            //     <ScrollView>
-            //         <Text style={FONTS.h3}>
-            //             Cuisine Type
-            //         </Text>
-            //         <View style={styles.infoContainer}>
-            //             <Text style={FONTS.body4}>
-            //                 {recipe?.recipe.cuisineType}
-            //             </Text>
-            //         </View>
-            //         <Text style={FONTS.h3} >
-            //             Meal Type
-            //         </Text>
-            //         <View style={styles.infoContainer}>
-            //             <Text style={FONTS.body4}>
-            //                 {recipe?.recipe.mealType}
-            //             </Text>
-            //         </View>
-            //         <Text style={FONTS.h3} >
-            //             Calories
-            //         </Text>
-            //         <View style={styles.infoContainer}>
-            //             <Text style={FONTS.body4}>
-            //                 {recipe?.recipe.calories}
-            //             </Text>
-            //         </View>
-            //         <Text style={FONTS.h3} >
-            //             Ingredients
-            //         </Text>
-            //         <View style={styles.infoContainer}>
-            //             {recipe?.recipe.ingredients.map((obj) => {
-            //                 return (
-            //                     <Text style={FONTS.body4} >
-            //                         {obj.text}
-            //                     </Text>
-            //                 )
-            //             })}
-            //         </View>
-            //     </ScrollView>
-            // </View>
+                ingredients={recipe?.recipe.ingredients}
+            >
+            </RecipeContentCustom>
         )
     }
     return (
