@@ -11,62 +11,61 @@ import {
 
 import { icons, COLORS, SIZES, FONTS } from '../constants'
 
-export default function CustomRecipe({ recipeImg, cuisineType, mealType, calories, ingredients }) {
+export default function CustomRecipe(props) {
     return (
-        <View style={{
-            justifyContent: "center",
-            alignItems: "center",
-            paddingTop: SIZES.padding * 2,
-        }}>
-            <Image
-                source={{ uri: recipeImg }}
+        <View name={props.key}
+            style={{
+                paddingTop: SIZES.padding * 2,
+                paddingLeft: SIZES.padding * 2,
+                width: 300,
+            }}
+        >
+            <Text
+                style={
+                    FONTS.h3
+                }
+            >
+            </Text>
+            <TouchableOpacity
                 style={{
-                    width: 300,
-                    height: 300,
-                    borderRadius: 30,
-                    alignContent: "center",
+                    width: 200,
+                    height: 200,
+                    marginBottom: 30,
+                    paddingTop: 10,
+                    marginLeft: SIZES.padding * 2,
+                    display: "flex",
                 }}
-            ></Image>
-
-            {/* Recipe Information */}
-            <ScrollView>
-                <Text style={FONTS.h3}>
-                    Cuisine Type
-                </Text>
-                <View style={styles.infoContainer}>
-                    <Text style={FONTS.body4}>
-                        {cuisineType}
+                onPress={() => navigation.navigate("RecipePage", {
+                    obj
+                })}
+            >
+                <Image
+                    key={props.key}
+                    source={{ uri: props.recipeImg }}
+                    style={{
+                        width: "100%",
+                        height: "100%",
+                        borderRadius: 30,
+                    }}
+                ></Image>
+                <View
+                    style={{
+                        position: 'absolute',
+                        bottom: 0,
+                        height: 50,
+                        width: SIZES.width * 0.3,
+                        backgroundColor: COLORS.white,
+                        borderTopRightRadius: SIZES.radius,
+                        borderBottomLeftRadius: SIZES.radius,
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                    }}>
+                    <Text
+                        style={FONTS.body3}>
+                        {props.dishType}
                     </Text>
                 </View>
-                <Text style={FONTS.h3} >
-                    Meal Type
-                </Text>
-                <View style={styles.infoContainer}>
-                    <Text style={FONTS.body4}>
-                        {mealType}
-                    </Text>
-                </View>
-                <Text style={FONTS.h3} >
-                    Calories
-                </Text>
-                <View style={styles.infoContainer}>
-                    <Text style={FONTS.body4}>
-                        {calories}
-                    </Text>
-                </View>
-                <Text style={FONTS.h3} >
-                    Ingredients
-                </Text>
-                <View style={styles.infoContainer}>
-                    {/* {ingredients.map((obj) => {
-                        return (
-                            <Text style={FONTS.body4} >
-                                {obj.text}
-                            </Text>
-                        )
-                    })} */}
-                </View>
-            </ScrollView>
+            </TouchableOpacity>
         </View>
     )
 }

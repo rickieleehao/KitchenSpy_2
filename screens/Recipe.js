@@ -12,6 +12,8 @@ import {
 } from "react-native";
 
 import { icons, images, SIZES, COLORS, FONTS } from '../constants';
+import CustomRecipe from '../components/customRecipe';
+
 const { width } = Dimensions.get("window");
 const height = width * 0.6;
 
@@ -51,60 +53,14 @@ const Recipe = ({ navigation }) => {
 
         let viewAPI = recipes.map((obj, key) => {
             return (
-                <View name={key}
-                    style={{
-                        paddingTop: SIZES.padding * 2,
-                        paddingLeft: SIZES.padding * 2,
-                        width: 300,
-                    }}
+
+                <CustomRecipe
+                    key={key}
+                    recipeImg={obj.recipes?.recipes.image}
+                    dishType={obj.recipes?.recipes.dishType}
                 >
-                    <Text
-                        style={
-                            FONTS.h3
-                        }
-                    >
-                    </Text>
-                    <TouchableOpacity
-                        style={{
-                            width: 200,
-                            height: 200,
-                            marginBottom: 30,
-                            paddingTop: 10,
-                            marginLeft: SIZES.padding * 2,
-                            display: "flex",
-                        }}
-                        onPress={() => navigation.navigate("RecipePage", {
-                            obj
-                        })}
-                    >
-                        <Image
-                            key={key}
-                            source={{ uri: obj.recipe.image }}
-                            style={{
-                                width: "100%",
-                                height: "100%",
-                                borderRadius: 30,
-                            }}
-                        ></Image>
-                        <View
-                            style={{
-                                position: 'absolute',
-                                bottom: 0,
-                                height: 50,
-                                width: SIZES.width * 0.3,
-                                backgroundColor: COLORS.white,
-                                borderTopRightRadius: SIZES.radius,
-                                borderBottomLeftRadius: SIZES.radius,
-                                alignItems: 'center',
-                                justifyContent: 'center',
-                            }}>
-                            <Text
-                                style={FONTS.body3}>
-                                {obj.recipe.dishType}
-                            </Text>
-                        </View>
-                    </TouchableOpacity>
-                </View>
+                </CustomRecipe>
+
             )
         });
 
