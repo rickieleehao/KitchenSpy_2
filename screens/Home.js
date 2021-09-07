@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import {
     SafeAreaView,
     View,
@@ -22,7 +22,7 @@ const Home = ({ navigation }) => {
         // AsyncStorage.clear(); 
     })
 
-    const getValue = async() => {
+    const getValue = async () => {
         if (!AsyncStorage.getItem("ProductData")) {
             await AsyncStorage.setItem("ProductData", JSON.stringify(datas));
         }
@@ -32,11 +32,10 @@ const Home = ({ navigation }) => {
             // Alert.alert(value);
             if (value !== null) {
                 setProduct(JSON.parse(value));
-                
             }
-          } catch (error) {
+        } catch (error) {
             console.log(error);
-          }
+        }
     }
 
     function renderHeader() {
@@ -70,16 +69,16 @@ const Home = ({ navigation }) => {
     function renderData() {
         const renderItem = ({ item }) => {
             return (
-                <View style={{justifyContent: "center", alignItems: "center"}}>
-                <TouchableOpacity style={styles.list}>
-                    <Image source={item.image} style={styles.productIcon}/>
-                    <Text style={FONTS.body2}>
-                        {item.name}
-                        {"\n"}
-                        {item.quantity}
-                    </Text>
-                    
-                </TouchableOpacity>
+                <View style={{ justifyContent: "center", alignItems: "center" }}>
+                    <TouchableOpacity style={styles.list}>
+                        <Image source={item.image} style={styles.productIcon} />
+                        <Text style={FONTS.body2}>
+                            {item.name}
+                            {"\n"}
+                            {item.quantity}
+                        </Text>
+
+                    </TouchableOpacity>
                 </View>
             )
         }
@@ -151,7 +150,7 @@ const styles = StyleSheet.create({
         // alignItems: 'center',
         // justifyContent: 'center',
         width: 300,
-        marginVertical: 10, 
+        marginVertical: 10,
         backgroundColor: COLORS.lightGray3,
         flexDirection: 'row',
     },

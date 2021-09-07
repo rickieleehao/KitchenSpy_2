@@ -13,7 +13,7 @@ import { icons, COLORS, SIZES, FONTS } from '../constants'
 
 export default function CustomRecipe(props) {
     return (
-        <View name={props.key}
+        <View
             style={{
                 paddingTop: SIZES.padding * 2,
                 paddingLeft: SIZES.padding * 2,
@@ -35,9 +35,7 @@ export default function CustomRecipe(props) {
                     marginLeft: SIZES.padding * 2,
                     display: "flex",
                 }}
-                onPress={() => navigation.navigate("RecipePage", {
-                    obj
-                })}
+                onPress={props.onPress}
             >
                 <Image
                     key={props.key}

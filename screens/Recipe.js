@@ -22,7 +22,6 @@ const Recipe = ({ navigation }) => {
     function renderHeader() {
         return (
             <View style={{ flexDirection: 'row', height: 50, backgroundColor: COLORS.primary }}>
-
                 <Text
                     resizeMode="contain"
                     style={{
@@ -53,14 +52,13 @@ const Recipe = ({ navigation }) => {
 
         let viewAPI = recipes.map((obj, key) => {
             return (
-
                 <CustomRecipe
                     key={key}
-                    recipeImg={obj.recipes?.recipes.image}
-                    dishType={obj.recipes?.recipes.dishType}
+                    recipeImg={obj.recipe.image}
+                    dishType={obj.recipe.dishType}
+                    onPress={() => { navigation.navigate("RecipePage", { obj }) }}
                 >
                 </CustomRecipe>
-
             )
         });
 
