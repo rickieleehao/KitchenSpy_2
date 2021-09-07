@@ -9,6 +9,9 @@ import {
     FlatList,
     Alert,
 } from "react-native";
+import { LogBox } from 'react-native';
+LogBox.ignoreLogs(['Warning: ...']); // Ignore log notification by message
+LogBox.ignoreAllLogs();
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { icons, COLORS, SIZES, FONTS, items } from '../constants'
 
@@ -201,17 +204,17 @@ const ItemList = ({ navigation }) => {
 
     useEffect(() => {
         getValue();
-    }, [])
+    })
 
-    const getValue = () => {
+    const getValue = async () => {
         try {
-            const value = AsyncStorage.getItem('ProductData');
-            if (value !== null) {
-              setAddedProducts(JSON.parse(value));
+            const value = await AsyncStorage.getItem('ProductData');
+            if (value != null) {
+                setAddedProducts(JSON.parse(value));
             }
-          } catch (error) {
+        } catch (error) {
             console.log(error);
-          }
+        }
     }
 
     const [product, setProduct] = React.useState(products)
@@ -265,52 +268,50 @@ const ItemList = ({ navigation }) => {
         )
     }
 
-    const [addProduct, setAddProduct] = useState({id: 0, image: '', name: '', quantity: 0});
-    
+    const [addProduct, setAddProduct] = useState({ id: 0, image: '', name: '', quantity: 0 });
+
 
     function addItem(item) {
-        
         const storeItem = async (value) => {
             try {
-                 await AsyncStorage.setItem('ProductData',JSON.stringify(value));
-              } catch (e) {
+                await AsyncStorage.setItem('ProductData', JSON.stringify(value));
+            } catch (e) {
                 console.log(e);
-              }
+            }
         }
 
         // Alert.alert(JSON.stringify(item));
         // const tempAddProduct = {id: item.id, image: item.image, name: item.name, quantity: item.quantity}
-        let tempAddProduct = ({id: item.id, image: item.image, name: item.name, quantity: 0});
-        setAddProduct(tempAddProduct);
-        if(tempAddProduct) {
-            let exists = false;
-            for(let i = 0; i > addedProducts.length; i++) {
-                if(addedProducts[i].id == item.id) {
-                    exists = true;
-                    addedProducts[i].quantity+=1;
-                    break;
-                }
+        setAddProduct({ id: item.id, image: item.image, name: item.name, quantity: 0 });
+
+        let exists = false;
+        for (let i = 0; i < addedProducts.length; i++) {
+            if (addedProducts[i].id == item.id) {
+                exists = true;
+                addedProducts[i].quantity += 1;
+                break;
             }
-            if(!exists) {
-                tempAddProduct.quantity = 1;
-                addedProducts.push(tempAddProduct);
-            }
-            storeItem(addedProducts); 
-        }  
+        }
+        if (!exists) {
+            item.quantity = 1;
+            addedProducts.push(item);
+        }
+        storeItem(addedProducts);
+
     }
 
-    
+
 
     function renderContent() {
         const renderItem = ({ item }) => {
             return (
-                <TouchableOpacity style={styles.list} 
-                onPress={() => {
-                    // Alert.alert(JSON.stringify(item)); 
-                    // Alert.alert("name: " + item.name + "\nquantity: " + item.quantity);
-                    addItem(item);
-                    // Alert.alert(JSON.stringify(addedProducts));
-                }}
+                <TouchableOpacity style={styles.list}
+                    onPress={() => {
+                        // Alert.alert(JSON.stringify(item)); 
+                        // Alert.alert("name: " + item.name + "\nquantity: " + item.quantity);
+                        addItem(item);
+                        // Alert.alert(JSON.stringify(addedProducts));
+                    }}
                 >
                     <View>
                         <Image source={item.image} style={styles.itemImage} />
@@ -323,10 +324,10 @@ const ItemList = ({ navigation }) => {
             );
         }
 
-        
 
-        
-    
+
+
+
         return (
             <FlatList
                 data={products}

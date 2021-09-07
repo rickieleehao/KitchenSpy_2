@@ -19,7 +19,7 @@ const Home = ({ navigation }) => {
 
     useEffect(() => {
         getValue();
-        // AsyncStorage.clear(); 
+        // AsyncStorage.clear();
     })
 
     const getValue = async () => {
