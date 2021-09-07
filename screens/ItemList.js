@@ -280,20 +280,23 @@ const ItemList = ({ navigation }) => {
 
         // Alert.alert(JSON.stringify(item));
         // const tempAddProduct = {id: item.id, image: item.image, name: item.name, quantity: item.quantity}
-        setAddProduct({id: item.id, image: item.image, name: item.name, quantity: 0});
-        let exists = false;
-        for(let i = 0; i > addedProducts.length; i++) {
-            if(addedProducts[i].id == item.id) {
-                exists = true;
-                addedProducts[i].quantity+=1;
-                break;
+        let tempAddProduct = ({id: item.id, image: item.image, name: item.name, quantity: 0});
+        setAddProduct(tempAddProduct);
+        if(tempAddProduct) {
+            let exists = false;
+            for(let i = 0; i > addedProducts.length; i++) {
+                if(addedProducts[i].id == item.id) {
+                    exists = true;
+                    addedProducts[i].quantity+=1;
+                    break;
+                }
             }
-        }
-        if(!exists) {
-            addProduct.quantity = 1;
-            addedProducts.push(addProduct);
-        }
-        storeItem(addedProducts);   
+            if(!exists) {
+                tempAddProduct.quantity = 1;
+                addedProducts.push(tempAddProduct);
+            }
+            storeItem(addedProducts); 
+        }  
     }
 
     
@@ -326,7 +329,7 @@ const ItemList = ({ navigation }) => {
     
         return (
             <FlatList
-                data={product}
+                data={products}
                 renderItem={renderItem}
                 keyExtractor={item => `${item.id}`}>
             </FlatList>
