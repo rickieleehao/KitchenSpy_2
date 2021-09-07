@@ -1,5 +1,4 @@
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import React from "react";
+import React, { useState, useEffect } from "react";
 import {
     StyleSheet,
     SafeAreaView,
@@ -8,9 +7,9 @@ import {
     TouchableOpacity,
     Image,
     FlatList,
-    Alert
+    Alert,
 } from "react-native";
-
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { icons, COLORS, SIZES, FONTS, items } from '../constants'
 
 const ItemList = ({ navigation }) => {
@@ -198,6 +197,23 @@ const ItemList = ({ navigation }) => {
         },
     ]
 
+    const [addedProducts, setAddedProducts] = useState([]);
+
+    useEffect(() => {
+        getValue();
+    }, [])
+
+    const getValue = () => {
+        try {
+            const value = AsyncStorage.getItem('ProductData');
+            if (value !== null) {
+              setAddedProducts(JSON.parse(value));
+            }
+          } catch (error) {
+            console.log(error);
+          }
+    }
+
     const [product, setProduct] = React.useState(products)
 
     function renderHeader() {
@@ -249,21 +265,65 @@ const ItemList = ({ navigation }) => {
         )
     }
 
+    const [addProduct, setAddProduct] = useState({id: 0, image: '', name: '', quantity: 0});
+    
+
+    function addItem(item) {
+        
+        const storeItem = async (value) => {
+            try {
+                 await AsyncStorage.setItem('ProductData',JSON.stringify(value));
+              } catch (e) {
+                console.log(e);
+              }
+        }
+
+        // Alert.alert(JSON.stringify(item));
+        // const tempAddProduct = {id: item.id, image: item.image, name: item.name, quantity: item.quantity}
+        setAddProduct({id: item.id, image: item.image, name: item.name, quantity: 0});
+        let exists = false;
+        for(let i = 0; i > addedProducts.length; i++) {
+            if(addedProducts[i].id == item.id) {
+                exists = true;
+                addedProducts[i].quantity+=1;
+                break;
+            }
+        }
+        if(!exists) {
+            addProduct.quantity = 1;
+            addedProducts.push(addProduct);
+        }
+        storeItem(addedProducts);   
+    }
+
+    
+
     function renderContent() {
         const renderItem = ({ item }) => {
             return (
-                <TouchableOpacity style={styles.list} onPress={() => {
-                    try { AsyncStorage.setItem("ProductData", item.name) } catch (e) {
-                        console.log(e);
-                    }
-                }}>
-                    <Image source={item.image} style={styles.itemImage} />
-                    <View style={styles.textBox}>
-                        <Text style={styles.itemDetails}>{item.name} </Text>
+                <TouchableOpacity style={styles.list} 
+                onPress={() => {
+                    // Alert.alert(JSON.stringify(item)); 
+                    // Alert.alert("name: " + item.name + "\nquantity: " + item.quantity);
+                    addItem(item);
+                    // Alert.alert(JSON.stringify(addedProducts));
+                }}
+                >
+                    <View>
+                        <Image source={item.image} style={styles.itemImage} />
+                        <View style={styles.textBox}>
+                            <Text style={styles.itemDetails}>{item.name}
+                            </Text>
+                        </View>
                     </View>
                 </TouchableOpacity>
             );
         }
+
+        
+
+        
+    
         return (
             <FlatList
                 data={product}

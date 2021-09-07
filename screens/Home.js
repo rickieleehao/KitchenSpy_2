@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import {
     SafeAreaView,
     View,
@@ -7,28 +7,41 @@ import {
     TouchableOpacity,
     Image,
     FlatList,
+    Alert,
 } from "react-native";
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { icons, images, SIZES, COLORS, FONTS } from '../constants';
+import { icons, images, SIZES, COLORS, FONTS, items } from '../constants';
+
+const datas = [];
 
 const Home = ({ navigation }) => {
-    const [product, setProducts] = React.useState()
+    const [product, setProduct] = useState([])
 
-    function renderData() {
+    useEffect(() => {
+        getValue();
+        // AsyncStorage.clear(); 
+    })
+
+    const getValue = async() => {
         if (!AsyncStorage.getItem("ProductData")) {
-            AsyncStorage.setItem("ProductData", "");
+            await AsyncStorage.setItem("ProductData", JSON.stringify(datas));
         }
 
-        AsyncStorage.getItem("ProductData")
-            .then((value) => {
-                setProducts(value);
-            })
-
+        try {
+            const value = await AsyncStorage.getItem('ProductData');
+            // Alert.alert(value);
+            if (value !== null) {
+                setProduct(JSON.parse(value));
+                
+            }
+          } catch (error) {
+            console.log(error);
+          }
     }
 
     function renderHeader() {
         return (
-            <View style={{ flexDirection: 'row', height: 50, backgroundColor: COLORS.primary }}>
+            <View style={{ flexDirection: 'row', height: 50, backgroundColor: COLORS.primary, zIndex: 200 }}>
                 <Text
                     resizeMode="contain"
                     style={{
@@ -53,14 +66,21 @@ const Home = ({ navigation }) => {
         )
     }
 
-    function renderItem() {
+
+    function renderData() {
         const renderItem = ({ item }) => {
             return (
+                <View style={{justifyContent: "center", alignItems: "center"}}>
                 <TouchableOpacity style={styles.list}>
-                    <Text style={{ textAlign: "center", textAlignVertical: "center" }}>
-                        {item}
+                    <Image source={item.image} style={styles.productIcon}/>
+                    <Text style={FONTS.body2}>
+                        {item.name}
+                        {"\n"}
+                        {item.quantity}
                     </Text>
+                    
                 </TouchableOpacity>
+                </View>
             )
         }
 
@@ -93,7 +113,6 @@ const Home = ({ navigation }) => {
             {renderHeader()}
             {renderContainer()}
             {renderData()}
-            {renderItem()}
             {renderPlusButton()}
         </SafeAreaView>
     )
@@ -127,10 +146,21 @@ const styles = StyleSheet.create({
     },
     list: {
         borderWidth: 1,
-        height: 80,
+        height: 100,
         padding: 10,
-        alignItems: 'center',
-        justifyContent: 'center'
+        // alignItems: 'center',
+        // justifyContent: 'center',
+        width: 300,
+        marginVertical: 10, 
+        backgroundColor: COLORS.lightGray3,
+        flexDirection: 'row',
+    },
+    productIcon: {
+        width: 80,
+        height: 80,
+        padding: 20,
+        marginHorizontal: 20,
+        borderRadius: 40,
     },
 })
 
